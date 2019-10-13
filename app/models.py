@@ -30,7 +30,7 @@ class Image(models.Model):
     image_path = models.ImageField(upload_to = 'posts/')
     image_name = models.CharField(max_length = 50)
     image_caption = models.TextField(max_length = 300)
-    image_profile = models.ForeignKey(Profile, null = True, on_delete = models.CASCADE)
+    image_profile = models.ForeignKey(User, null = True, on_delete = models.CASCADE)
     pub_date = models.DateTimeField(auto_now_add = True)
     
     
