@@ -10,7 +10,7 @@ class Profile(models.Model):
     
     
     def __str__(self):
-        return self.profile_user
+        return self.profile_bio
     
     
     def save_profile(self):
@@ -19,6 +19,10 @@ class Profile(models.Model):
         
     def delete_profile(self):
         self.delete()
+        
+        
+    def update_profile(self):
+        Profile.objects.filter(pk = id).update(profile_photo = profile_photo,profile_bio = profile_bio, profile_user = profile_user) 
     
     
     

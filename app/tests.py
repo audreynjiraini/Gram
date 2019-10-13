@@ -12,7 +12,7 @@ class ProfileTestClass(TestCase):
         self.user = User(username = 'audrey', email = 'audreywncode@gmail.com', password = 'njiraini123')
         self.user.save()
         
-        self.audrey = Profile( id = 50,profile_photo = 'default.jpg', profile_bio = 'Test 1', profile_user = self.user)
+        self.audrey = Profile(id = 50, profile_photo = 'default.jpg', profile_bio = 'Test 1', profile_user = self.user)
         
         
     # Testing instance
@@ -35,3 +35,12 @@ class ProfileTestClass(TestCase):
         self.audrey.delete_profile()
         profiles = Profile.objects.all()
         self.assertTrue(len(profiles) == 0)
+        
+        
+    #Testing update method
+    def test_update_profile(self):
+        self.audrey.save_profile()
+        self.audrey = Profile.objects.filter(profile_bio = 'Test 1').update(profile_bio='Test 2')
+        
+        self.audrey = Profile.objects.get(profile_bio='Test 2')
+        self.assertEqual(self.audrey.profile_bio, 'Test 2')
