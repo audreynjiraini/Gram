@@ -9,6 +9,14 @@ class Profile(models.Model):
     profile_user = models.OneToOneField(User, on_delete = models.CASCADE)
     
     
+    def __str__(self):
+        return self.profile_user
+    
+    
+    def save_profile(self):
+        self.save()
+    
+    
     
 class Image(models.Model):
     image_path = models.ImageField(upload_to = 'posts/')
