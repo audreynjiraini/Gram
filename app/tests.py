@@ -56,10 +56,7 @@ class ImageTestClass(TestCase):
     
     # Set up method
     def setUp(self):
-        self.user = User(username = 'audrey', email = 'audreywncode@gmail.com', password = 'njiraini123')
-        self.user.save()
-        
-        self.audrey = Profile(id = 50, profile_photo = 'default.jpg', profile_bio = 'Test 1', profile_user = self.user)
+        self.audrey = User(username = 'audrey', email = 'audreywncode@gmail.com', password = 'njiraini123')
         self.audrey.save()
         
         self.image = Image(id = 50, image_path = 'image.jpg', image_name = 'Test',image_caption = 'Test 1', image_profile = self.audrey, pub_date = '2019-10-10')
@@ -88,10 +85,16 @@ class ImageTestClass(TestCase):
         
         
     #Testing update caption method
-    
+    def test_update_caption(self):
+        self.image.save_image()
+        self.image = Image.objects.filter(image_caption = 'Test 1').update(image_caption = 'Test 2')
+        
+        self.image = Image.objects.get(image_caption = 'Test 2')
+        self.assertEqual(self.image.image_caption, 'Test 2')
     
     
     def tearDown(self):
         Profile.objects.all().delete()
         User.objects.all().delete()
         Image.objects.all().delete()
+        

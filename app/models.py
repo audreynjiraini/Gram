@@ -46,5 +46,5 @@ class Image(models.Model):
         self.delete()
         
         
-    def update_caption(self, image_caption):
+    def update_caption(self):
         Image.objects.filter(pk = id).update(image_caption = image_caption)
