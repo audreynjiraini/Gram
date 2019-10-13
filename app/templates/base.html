@@ -15,13 +15,14 @@
 
     {% block styles %}
         {% bootstrap_css %}
+        <link rel="stylesheet" href="{% static 'css/baseapp.css' %}">
     {% endblock %}
 
 </head>
 <body>
 
     {% include "navbar.html" %}
-    
+
     {% block content %}
     
     {%endblock%}
