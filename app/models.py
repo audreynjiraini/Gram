@@ -48,3 +48,9 @@ class Image(models.Model):
         
     def update_caption(self):
         Image.objects.filter(pk = id).update(image_caption = image_caption)
+        
+        
+        
+class NewsLetterRecipients(models.Model):
+    name = models.CharField(max_length = 30)
+    email = models.EmailField()
