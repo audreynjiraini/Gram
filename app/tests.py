@@ -57,7 +57,7 @@ class ImageTestClass(TestCase):
         self.audrey = Profile(id = 50, profile_photo = 'default.jpg', profile_bio = 'Test 1', profile_user = self.user)
         self.audrey.save()
         
-        self.image = Image(image_path = 'image.jpg', image_name = 'Test',image_caption = 'Test 1', image_profile = self.audrey, pub_date = '2019-10-10')
+        self.image = Image(id = 50, image_path = 'image.jpg', image_name = 'Test',image_caption = 'Test 1', image_profile = self.audrey, pub_date = '2019-10-10')
         
         
     # Testing instance
@@ -66,3 +66,21 @@ class ImageTestClass(TestCase):
     
     
     # Testing Save Method
+    def test_save_image(self):
+        self.image.save_image()
+        images = Image.objects.all()
+        self.assertTrue(len(images) > 0)
+        
+        
+    # Testing delete Method
+    def test_delete_image(self):
+        self.image.save_image()
+        self.image = Image.objects.get(id = 50)
+        
+        self.image.delete_image()
+        images = Image.objects.all()
+        self.assertTrue(len(images) == 0)
+        
+        
+    #Testing update caption method
+    
