@@ -46,6 +46,11 @@ class ProfileTestClass(TestCase):
         self.assertEqual(self.audrey.profile_bio, 'Test 2')
         
         
+    def tearDown(self):
+        Profile.objects.all().delete()
+        User.objects.all().delete()
+        
+        
         
 class ImageTestClass(TestCase):
     
@@ -84,3 +89,9 @@ class ImageTestClass(TestCase):
         
     #Testing update caption method
     
+    
+    
+    def tearDown(self):
+        Profile.objects.all().delete()
+        User.objects.all().delete()
+        Image.objects.all().delete()
