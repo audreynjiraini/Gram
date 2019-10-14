@@ -158,3 +158,30 @@ def myprofile(request):
     photos = Image.objects.filter(image_profile = userProfile).all()
     
     return render(request, 'myprofile.html',  {'userProfile': userProfile, 'photos': photos})
+
+
+
+# def photos(request):
+    
+#     current_user = request.user
+#     photos = Image.objects.all()
+#     comments = Image.objects.all().prefetch_related('image_comments')
+    
+#     if current_user.is_authenticated():
+#         HttpResponseRedirect('index')
+#     return render(request, 'myprofile.html', {'photos': photos})
+
+
+
+def single(request, image_id):
+    
+    images = Image.objects.get(id = image_id)
+    
+    try:
+        images = Image.objects.get(id = image_id)
+        comments = Comment.objects.filter(image_id = images).all()
+        
+    except Image.DoesNotExist:
+        raise Http404("Sorry. The image does not exist.")
+    
+    return render(request, 'single.html', 'images': images, 'comments': comments)
