@@ -5,6 +5,8 @@ from django.contrib.auth.models import User
 from .forms import NewPostForm, NewProfileForm, NewsLetterForm, CommentForm
 from .email import send_welcome_email
 from django.contrib.auth.decorators import login_required
+from django.core.urlresolvers import reverse
+from django.views.generic import RedirectView
 
 
 # Create your views here.
@@ -19,6 +21,7 @@ def register(request):
 def index(request):
     
     form = NewsLetterForm(request.POST)
+    
     if request.method == 'POST':
         form = NewsLetterForm(request.POST)
         
@@ -62,14 +65,14 @@ def create_profile(request):
 def new_post(request):
     
     current_user = request.user
-    userProfile = Profile.objects.filter(profile_user = current_user).first()
+    userProfile = Profile.objects.filter(profile_user = current_user).first().profile_user
     
     if request.method == 'POST':
         form = NewPostForm(request.POST, request.FILES)
         
         if form.is_valid():
             image = form.save(commit = False)
-            userProfile = Profile.objects.filter(profile_user = current_user).first()
+            userProfile = Profile.objects.filter(profile_user = current_user).first().profile_user
             image.image_profile = userProfile
             image.save()
             
@@ -88,14 +91,14 @@ def home(request):
     people = Profile.objects.all()
     
     current_user = request.user
-    userProfile = Profile.objects.filter(profile_user = current_user).first()
+    userProfile = Profile.objects.filter(profile_user = current_user).first().profile_user
     
     if request.method == 'POST':
         form = CommentForm(request.POST, request.FILES)
         
         if form.is_valid():
             comments = form.save(commit = False)
-            userProfile = Profile.objects.filter(profile_user = current_user).first()
+            userProfile = Profile.objects.filter(profile_user = current_user).first().profile_user
             image = Image.objects.filter(id = request.POST.get('photo_id')).first()
             
             comments.image_id = image
@@ -113,11 +116,11 @@ def search_results(request):
     
     if 'username' in request.GET and request.GET["username"]:
         search_term = request.GET.get("username")
-        searched_profiles = Profile.search_by_username(search_term)
+        searched_usernames = Profile.search_by_username(search_term)
         
         message = f"{search_term}"
         
-        return render(request, 'search.html', {"message": message, "username": searched_profiles})
+        return render(request, 'search.html', {"message": message, "usernames": searched_usernames})
     
     else:
         message = "You haven't searched for any term"
@@ -135,7 +138,7 @@ def comments(request):
         
         if form.is_valid():
             comments = form.save(commit = False)
-            userProfile = Profile.objects.filter(profile_user = current_user).first()
+            userProfile = Profile.objects.filter(profile_user = current_user).first().profile_user
             image = Image.objects.filter(id = request.POST.get('photo_id')).first()
             
             comments.image_id = image.id
@@ -155,7 +158,7 @@ def comments(request):
 def myprofile(request):
     
     current_user = request.user
-    userProfile = Profile.objects.filter(profile_user = current_user).first()
+    userProfile = Profile.objects.filter(profile_user = current_user).first().profile_user
     photos = Image.objects.filter(image_profile = userProfile).all()
     
     return render(request, 'myprofile.html',  {'userProfile': userProfile, 'photos': photos})

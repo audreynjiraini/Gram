@@ -14,7 +14,7 @@ urlpatterns=[
     url(r'^comments/$', views.comments, name = 'comments'),
     url(r'^myprofile/$', views.myprofile, name = 'myprofile'),
     # url(r'^photos/$', views.photos, name = 'photos'),
-    url(r'^single/<int:image_id>/$', views.single, name = 'single'),
+    url(r'^single/(?P<image_id>\d+)/$', views.single, name = 'single'),
 ]
 
 

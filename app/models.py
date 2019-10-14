@@ -13,7 +13,7 @@ class Profile(models.Model):
     
     
     def __str__(self):
-        return self.profile_bio
+        return self.profile_user.username
     
     
     def save_profile(self):
@@ -26,6 +26,13 @@ class Profile(models.Model):
         
     def update_profile(self):
         Profile.objects.filter(pk = id).update(profile_photo = profile_photo,profile_bio = profile_bio, profile_user = profile_user) 
+        
+        
+    @classmethod
+    def search_by_username(cls,search_term):
+        profile = cls.objects.filter(profile_user__username__icontains = search_term)
+    
+        return profile
     
     
     
