@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-{% load bootstrap3 %}
 
 
 {% block content %}
@@ -9,6 +8,9 @@
         <div class="container">
             <h2>{{ images.image_name }}</h2>
             <img src="{{images.image_path.url}}" alt="">
+            <br><br>
+            <h3>{{images.image_caption}}</h3>
+            <p>Posted by: <strong>{{images.image_profile.username}}</strong> on {{images.pub_date| date}}.</p>
             <br>
 
             {% for comment in comments %}

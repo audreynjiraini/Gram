@@ -158,22 +158,22 @@ def comments(request):
 def myprofile(request):
     
     current_user = request.user
-    userProfile = Profile.objects.filter(profile_user = current_user).first().profile_user
-    photos = Image.objects.filter(image_profile = userProfile).all()
+    userProfile = Profile.objects.filter(profile_user = current_user).first()
+    photos = Image.objects.filter(image_profile = userProfile.profile_user).all()
     
     return render(request, 'myprofile.html',  {'userProfile': userProfile, 'photos': photos})
 
 
 
-# def photos(request):
+def photos(request):
     
-#     current_user = request.user
-#     photos = Image.objects.all()
-#     comments = Image.objects.all().prefetch_related('image_comments')
+    current_user = request.user
+    photos = Image.objects.all()
+    comments = Image.objects.all().prefetch_related('image_comments')
     
-#     if current_user.is_authenticated():
-#         HttpResponseRedirect('index')
-#     return render(request, 'myprofile.html', {'photos': photos})
+    if current_user.is_authenticated():
+        HttpResponseRedirect('index')
+    return render(request, 'myprofile.html', {'photos': photos})
 
 
 
