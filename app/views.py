@@ -1,8 +1,8 @@
 from django.shortcuts import render, render_to_response, redirect, get_object_or_404
 from django.http import HttpResponse, Http404, HttpResponseRedirect
-from .models import Profile, Image, NewsLetterRecipients
+from .models import Profile, Image, NewsLetterRecipients, Comment
 from django.contrib.auth.models import User
-from .forms import NewPostForm, NewProfileForm, NewsLetterForm
+from .forms import NewPostForm, NewProfileForm, NewsLetterForm, CommentForm
 from .email import send_welcome_email
 from django.contrib.auth.decorators import login_required
 
@@ -89,4 +89,18 @@ def home(request):
     current_user = request.user
     userProfile = Profile.objects.filter(profile_user = current_user).first()
     
-    return render(request, 'home.html', {'people': people, 'photos': photos})
+    if request.method == 'POST':
+        form = CommentForm(request.POST, request.FILES)
+        
+        if form.is_valid():
+            comments = form.save(commit = False)
+            userProfile = Profile.objects.filter(profile_user = current_user).first()
+            
+            comments.image_id = image.id
+            comments.profile_id = userProfile
+            comments.save_comments()
+            
+    else:
+        form = CommentForm
+    
+    return render(request, 'home.html', {'people': people, 'photos': photos, 'form': form})

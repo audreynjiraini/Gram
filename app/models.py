@@ -64,3 +64,15 @@ class Comment(models.Model):
     comment = models.CharField(max_length = 100)
     image_id = models.ForeignKey(Image)
     profile_id = models.ForeignKey(Profile)
+    
+    
+    def __str__(self):
+        return self.comment
+    
+    
+    def save_comments(self):
+        self.save()
+
+
+    def delete_comments(self):
+        self.delete()

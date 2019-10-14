@@ -1,5 +1,5 @@
 from django import forms
-from .models import Profile, Image
+from .models import Profile, Image, Comment
 
 
 class NewsLetterForm(forms.Form):
@@ -17,3 +17,9 @@ class NewPostForm(forms.ModelForm):
     class Meta:
         model = Image
         exclude = ['pub_date','image_profile']
+
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        exclude = ['image_id','profile_id']
