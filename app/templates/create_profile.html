@@ -14,7 +14,7 @@
     {% block styles %}
         {% bootstrap_css %}
         <link rel="stylesheet" href="{% static 'css/baseapp.css' %}">
-    {% endblock %}
+    {% endblock styles %}
 
 </head>
 
@@ -23,14 +23,14 @@
     <form  action="{%url 'create-profile'%}" method="post" enctype="multipart/form-data">
         {%csrf_token%}
 
-        {% bootstrap_form form%}
+        {% bootstrap_form form %}
         <input type="submit" class="btn btn-success btn-lg" value="Post">
     </form>
 
     {% block scripts %}
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         {% bootstrap_javascript %}
-    {% endblock %}
+    {% endblock scripts %}
 
 </body>
 
