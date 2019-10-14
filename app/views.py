@@ -104,3 +104,19 @@ def home(request):
         form = CommentForm
     
     return render(request, 'home.html', {'people': people, 'photos': photos, 'form': form})
+
+
+
+def search_results(request):
+    
+    if 'username' in request.GET and request.GET["username"]:
+        search_term = request.GET.get("username")
+        searched_profiles = Profile.search_by_username(search_term)
+        
+        message = f"{search_term}"
+        
+        return render(request, 'search.html', {"message": message, "username": searched_profiles})
+    
+    else:
+        message = "You haven't searched for any term"
+        return render(request, 'search.html', {"message": message})
