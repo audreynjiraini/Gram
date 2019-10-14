@@ -11,7 +11,7 @@
             {% if user.is_authenticated %}
 
                 <form action = "{%url 'index'%}" method = "post">
-                    {%csrf_token%}
+                    {% csrf_token %}
                 
                     {% bootstrap_form letterForm layout='inline' %}
                     <input type="submit" value="Subscribe">
@@ -22,4 +22,4 @@
             {% endif %}
     </div>
 
-{% endblock %}
+{% endblock content %}

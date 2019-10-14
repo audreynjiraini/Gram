@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+
+{% block content% }
+{{block.super}}
+
+    <div class="container">
+        <div class="row">
+            {% if username %}
+
+                <h2>Found {{username|length }} of searched term {{message}}</h2>
+            {% else %}
+                <h2> Found 0 profiles for the searched term {{message}}</h2>
+            {% endif %}
+        </div>
+
+        <div class="row">
+            {% if username %}
+
+                {% for profile in username %}
+
+                    <div class="col-sm-6 col-md-3">
+                        <img src="{{profile.profile_photo.url}}" alt="" class="img-responsive">
+                    </div>
+                
+                {% endfor %}
+
+            {% endif %}
+
+        </div>
+    </div>
+
+{% endblock content %}
