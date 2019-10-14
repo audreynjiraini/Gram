@@ -10,6 +10,7 @@ class NewsLetterForm(forms.Form):
 class NewProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
+        exclude = []
 
 
 class NewPostsForm(forms.ModelForm):

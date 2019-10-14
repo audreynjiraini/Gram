@@ -10,7 +10,23 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 def index(request):
-    return render(request, 'index.html')
+    
+    if request.method == 'POST':
+        form = NewsLetterForm(request.POST)
+        if form.is_valid():
+            name = form.cleaned_data['your_name']
+            email = form.cleaned_data['email']
+            
+            recipient = NewsLetterRecipients(name = name, email = email)
+            recipient.save()
+            send_welcome_email(name, email)
+            
+            return HttpResponseRedirect('/accounts/login/')
+        
+        else:
+            form = NewsLetterForm()
+            
+    return render(request, 'index.html', {'letterForm': form})
 
 
 
