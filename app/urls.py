@@ -13,8 +13,8 @@ urlpatterns=[
     url(r'^search/', views.search_results, name = 'search_results'),
     url(r'^comments/$', views.comments, name = 'comments'),
     url(r'^myprofile/$', views.myprofile, name = 'myprofile'),
-    url(r'^photos/$', views.photos, name = 'photos'),
-    url(r'^single/<int:image_id>/$', views.single_view, name = 'single'),
+    # url(r'^photos/$', views.photos, name = 'photos'),
+    url(r'^single/<int:image_id>/$', views.single, name = 'single'),
 ]
 
 

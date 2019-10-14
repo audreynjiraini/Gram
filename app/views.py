@@ -18,6 +18,7 @@ def register(request):
 
 def index(request):
     
+    form = NewsLetterForm(request.POST)
     if request.method == 'POST':
         form = NewsLetterForm(request.POST)
         
@@ -184,4 +185,4 @@ def single(request, image_id):
     except Image.DoesNotExist:
         raise Http404("Sorry. The image does not exist.")
     
-    return render(request, 'single.html', 'images': images, 'comments': comments)
+    return render(request, 'single.html', {'images': images, 'comments': comments})
