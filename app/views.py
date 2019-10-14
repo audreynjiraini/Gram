@@ -9,6 +9,13 @@ from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
+@login_required(login_url = '/accounts/login/')
+def register(request):
+    
+    return render(request, 'registration/registration_form.html')
+
+
+
 def index(request):
     
     if request.method == 'POST':
@@ -31,5 +38,19 @@ def index(request):
 
 
 @login_required(login_url = '/accounts/login/')
-def register(request):
-    return render(request, 'registration/registration_form.html')
+def create_profile(request):
+    
+    current_user = request.user
+    if request.method == 'POST':
+        form = NewProfileForm(request.POST, request.FILES)
+        
+        if form.is_valid():
+            profile = form.save(commit = False)
+            profile.image_profile = current_user
+            profile.save()
+            
+    else:
+        form = NewProfileForm()
+        
+    return render(request, 'create_profile.html', {'form': form})
+            
