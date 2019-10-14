@@ -1,24 +1,8 @@
-{% load bootstrap3 %}
-{% load staticfiles %}
+{% extends 'base.html' %}
 
-<!DOCTYPE html>
-<html>
+{% load bootstrap4 %}
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <title>New Post</title>
-    {{form.media}}
-
-    {% block styles %}
-        {% bootstrap_css %}
-        <link rel="stylesheet" href="{% static 'css/baseapp.css' %}">
-    {% endblock %}
-
-</head>
-
-<body>
+{% block content %}
     <div class="container">
         <br><br>
         <form  action="{%url 'new-post'%}" method="post" enctype="multipart/form-data">
@@ -29,11 +13,6 @@
         </form>
     </div>
 
-    {% block scripts %}
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-        {% bootstrap_javascript %}
     {% endblock %}
 
-</body>
-
-</html>
+   

@@ -10,13 +10,13 @@
             <img src="{{images.image_path.url}}" alt="">
             <br><br>
             <h3>{{images.image_caption}}</h3>
-            <p>Posted by: <strong>{{images.image_profile.username}}</strong> on {{images.pub_date| date}}.</p>
+            <p>Posted by: <strong>{{images.image_author.username}}</strong> on {{images.pub_date| date}}.</p>
             <br>
 
             {% for comment in comments %}
 
                 <div class="row">
-                    <p><strong>{{comment.profile_id.profile_user}}: </strong>{{comment.comment}}</p>
+                    <p><strong>{{comment.profile_id.user}}: </strong>{{comment.comment}}</p>
 
             {% endfor %}
                 </div>

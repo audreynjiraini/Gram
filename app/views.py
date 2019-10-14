@@ -1,6 +1,6 @@
 from django.shortcuts import render, render_to_response, redirect, get_object_or_404
 from django.http import HttpResponse, Http404, HttpResponseRedirect
-from .models import Profile, Image, NewsLetterRecipients, Comment
+from .models import *
 from django.contrib.auth.models import User
 from .forms import NewPostForm, NewProfileForm, NewsLetterForm, CommentForm
 from .email import send_welcome_email
@@ -42,22 +42,22 @@ def index(request):
 
 
 
-@login_required(login_url = '/accounts/login/')
-def create_profile(request):
+# @login_required(login_url = '/accounts/login/')
+# def create_profile(request):
     
-    current_user = request.user
-    if request.method == 'POST':
-        form = NewProfileForm(request.POST, request.FILES)
+#     current_user = request.user
+#     if request.method == 'POST':
+#         form = NewProfileForm(request.POST, request.FILES)
         
-        if form.is_valid():
-            profile = form.save(commit = False)
-            profile.image_profile = current_user
-            profile.save()
+#         if form.is_valid():
+#             profile = form.save(commit = False)
+#             profile.image_profile = current_user
+#             profile.save()
             
-    else:
-        form = NewProfileForm()
+#     else:
+#         form = NewProfileForm()
         
-    return render(request, 'create_profile.html', {'form': form})
+#     return render(request, 'create_profile.html', {'form': form})
             
             
             
@@ -65,14 +65,14 @@ def create_profile(request):
 def new_post(request):
     
     current_user = request.user
-    userProfile = Profile.objects.filter(profile_user = current_user).first().profile_user
+    # userProfile = Profile.objects.filter(user = current_user).first()
     
     if request.method == 'POST':
         form = NewPostForm(request.POST, request.FILES)
         
         if form.is_valid():
             image = form.save(commit = False)
-            userProfile = Profile.objects.filter(profile_user = current_user).first().profile_user
+            userProfile = Profile.objects.filter(user = current_user).first()
             image.image_profile = userProfile
             image.save()
             
@@ -91,14 +91,14 @@ def home(request):
     people = Profile.objects.all()
     
     current_user = request.user
-    userProfile = Profile.objects.filter(profile_user = current_user).first().profile_user
+    userProfile = Profile.objects.filter(user = current_user).first()
     
     if request.method == 'POST':
         form = CommentForm(request.POST, request.FILES)
         
         if form.is_valid():
             comments = form.save(commit = False)
-            userProfile = Profile.objects.filter(profile_user = current_user).first().profile_user
+            userProfile = Profile.objects.filter(user = current_user).first().user
             image = Image.objects.filter(id = request.POST.get('photo_id')).first()
             
             comments.image_id = image
@@ -131,14 +131,14 @@ def search_results(request):
 def comments(request):
     
     current_user = request.user
-    userProfile = Profile.objects.filter(profile_user = current_user).first()
+    userProfile = Profile.objects.filter(user = current_user).first()
     
     if request.method == 'POST':
         form = CommentForm(request.POST, request.FILES)
         
         if form.is_valid():
             comments = form.save(commit = False)
-            userProfile = Profile.objects.filter(profile_user = current_user).first().profile_user
+            userProfile = Profile.objects.filter(user = current_user).first().user
             image = Image.objects.filter(id = request.POST.get('photo_id')).first()
             
             comments.image_id = image.id
@@ -158,10 +158,19 @@ def comments(request):
 def myprofile(request):
     
     current_user = request.user
-    userProfile = Profile.objects.filter(profile_user = current_user).first()
-    photos = Image.objects.filter(image_profile = userProfile.profile_user).all()
-    
-    return render(request, 'myprofile.html',  {'userProfile': userProfile, 'photos': photos})
+    image_author = current_user
+    # photos = Image.get_by_author(Author)
+   
+#    if request.method == 'POST':
+#        form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile)
+#        if form.is_valid():
+#            profile = form.save(commit=False)
+#            profile.save()
+#        return redirect('profile')
+#    else:
+#        form = ProfileUpdateForm()
+       
+    return render(request, 'myprofile.html',  {'photos': photos})
 
 
 

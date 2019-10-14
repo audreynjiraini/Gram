@@ -1,45 +1,103 @@
-{% extends 'base.html' %}
-{% load bootstrap3 %}
+{% extends 'base.html' %} {% load bootstrap4 %} {% block content %}
 
 
-{% block content %}
-{{block.super}}
-    {% if user.is_authenticated %}
-        <h1>Hello {{ user.username }}. Welcome to Gram.</h1>
-    {% endif %}
+{% if user.is_authenticated %}
+<h1>Hello {{ user.username }}. Welcome to Gram.</h1>
+{% endif %}
 
-    {% for photo_item in photos %}
+<!-- empyt div -->
+<div class="row">
+  <div class="col-lg-2"></div>
 
-        <div class="card">
-            <img src="{photo_item.image_profile.profile_photo.url}" alt="" class="img-responsive">
+  <div class="col-lg-6">
+    
+    <div class="container">
+            {% for photo_item in photos %}
+      <!-- Card -->
+      <div class="card mt-2 pb-2 mb-4 white">
+        <!-- Card header -->
+        <div class="card-footer pb-1 pt-1 text-dark font-weight-bold white">
+          <img src="{{ photo_item.Author.profile.photo.url }}" alt="" class="rounded-circle img-fluid mr-1" style="width: 50px;"/>
 
-            <a href="{% url 'single' photo_item.pk %}"><img src="{{photo_item.image_path.url}}" alt="avatar"></a>
-
-            <div class="container">
-                <h4>{{photo_item.image_caption}}</h4>
-
-                <form action="{% url 'comments' %}" method="POST" enctype="multipart/form-data">
-                    {% csrf_token %}
-
-                    <input type="hidden" class="btn btn-success btn-lg" value="Post">
-                </form>
-
-                {% for comment in photo_item.comments %}
-
-                    <div class="row commentStyle">
-                        <div class="col-xs-10">
-                            <span class="userName">{{ comment.user }}</span>
-                            <br>
-
-                            <div class="comment-box">
-                                <textarea readonly class="form-control">{{ comment.comment }}</textarea>
-                            </div>
-                        </div>
-                    </div>
-                {% endfor %}
-            </div>
+          {{ photo_item.image_author }}
         </div>
 
-    {% endfor %}
+        <!-- Card image -->
+        <div class="view overlay">
+          {% if photo_item.image_path %}
+          <img class="card-img-top pl-1 pr-1" src="{{ photo_item.image_path.url }}" alt="{{ photo_item.image_name }}" />
+          {% else %}
+          <img
+            class="card-img-top"
+            src="https://source.unsplash.com/1600x900/?fun,vacation"
+            alt="{{ photo_item.image_name }}"
+          />
+          {% endif %}
+          <a href="/image/{{ photo_item.id }}">
+            <div class="mask rgba-white-slight"></div>
+          </a>
+        </div>
+        <!-- Card content -->
+        <div class="card-body">
+          <!-- Title -->
+          <p class="card-title font-weight-bold" id="{{ photo_item.id }}">
+            {{ photo_item.Author }}
+            <span class="card-text ml-2"> {{ photo_item.description }} </span>
+          </p>
+          <!-- Text -->
+          <!-- <p class="card-text">{{ photo_item.description }}</p> -->
+          <!-- Button -->
+          <!-- {% for comment_item in comments %}
+                
+                    {% if photo_item.pk == comment_item.image.pk%}
+                <p> {{comment_item.author}} <span class="text-black-50"> {{comment_item.comment}} </span> </p>
+                {% endif %}
+                {% endfor %} -->
+          <div>
+            <small class="text-black-50"
+              >{{ photo_item.pub_date | timesince }} ago</small
+            >
+          </div>
+        </div>
+        <!-- Card footer -->
+        <div class="card-footer text-muted text-center white">
+          <form
+            action="{%url 'index' %}"
+            method="post"
+            enctype="multipart/form-data"
+          >
+            {%csrf_token%}
+            <div class="form-row">
+              <div class="col-lg-10">
+                {{ form.comment }}
+                <input
+                  type="hidden"
+                  value="{{ photo_item.pk }}"
+                  name="image_id"
+                />
+              </div>
+              <div class="col-lg-2 pr-2">
+                <button
+                  type="submit"
+                  class="btn btn-default btn-sm font-weight-bold"
+                  value="Post"
+                >
+                  Post
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <!-- Card -->
+      </div>
+      {% endfor %}
+    </div>
+  </div>
 
-{% endblock content %}
+
+  <!-- empty divs  -->
+  <div class="col-lg-2"></div>
+  <div class="col-lg-2"></div>
+</div>
+ {% endblock content %}
