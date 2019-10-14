@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load bootstrap3 %}
+
+
+{% block content %}
+{{block.super}}
+    {% if user.is_authenticated %}
+        <h1>Hello {{ user.username }}. Welcome to Gram.</h1>
+    {% endif %}
+
+    {% for photo_item in photos %}
+
+        <div class="card">
+            <img src="{photo_item.image_profile.profile_photo.url}" alt="" class="img-responsive">
+
+            <a href="{% url 'single' photo_item.pk %}"><img src="{{photo_item.image_path.url}}" alt="avatar"></a>
+
+            <div class="container">
+                <h4>{{photo_item.image_caption}}</h4>
+
+                <form action="{% url 'comments' %}" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    <input type="hidden" class="btn btn-success btn-lg" value="Post">
+                </form>
+
+                {% for comment in photo_item.comments %}
+
+                    <div class="row commentStyle">
+                        <div class="col-xs-10">
+                            <span class="userName">{{ comment.user }}</span>
+                            <br>
+
+                            <div class="comment-box">
+                                <textarea readonly class="form-control">{{ comment.comment }}</textarea>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+    {% endfor %}
+
+{% endblock content %}

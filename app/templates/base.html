@@ -16,7 +16,7 @@
     {% block styles %}
         {% bootstrap_css %}
         <link rel="stylesheet" href="{% static 'css/baseapp.css' %}">
-        {% endblock %}
+    {% endblock styles %}
 
 </head>
 <body>
@@ -25,13 +25,13 @@
 
     {% block content %}
     
-    {%endblock%}
+    {% endblock content %}
 
 
     {% block scripts %}
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         {% bootstrap_javascript %}
-    {% endblock %}
+    {% endblock scripts %}
 
 </body>
 </html>
