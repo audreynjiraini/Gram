@@ -150,3 +150,11 @@ def comments(request):
 
 
 
+@login_required(login_url = '/accounts/login/')
+def myprofile(request):
+    
+    current_user = request.user
+    userProfile = Profile.objects.filter(profile_user = current_user).first()
+    photos = Image.objects.filter(image_profile = userProfile).all()
+    
+    return render(request, 'myprofile.html',  {'userProfile': userProfile, 'photos': photos})
