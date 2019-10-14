@@ -95,8 +95,9 @@ def home(request):
         if form.is_valid():
             comments = form.save(commit = False)
             userProfile = Profile.objects.filter(profile_user = current_user).first()
+            image = Image.objects.filter(id = request.POST.get('photo_id')).first()
             
-            comments.image_id = image.id
+            comments.image_id = image
             comments.profile_id = userProfile
             comments.save_comments()
             
@@ -120,3 +121,32 @@ def search_results(request):
     else:
         message = "You haven't searched for any term"
         return render(request, 'search.html', {"message": message})
+    
+    
+    
+def comments(request):
+    
+    current_user = request.user
+    userProfile = Profile.objects.filter(profile_user = current_user).first()
+    
+    if request.method == 'POST':
+        form = CommentForm(request.POST, request.FILES)
+        
+        if form.is_valid():
+            comments = form.save(commit = False)
+            userProfile = Profile.objects.filter(profile_user = current_user).first()
+            image = Image.objects.filter(id = request.POST.get('photo_id')).first()
+            
+            comments.image_id = image.id
+            comments.profile_id = userProfile
+            comments.save_comments()
+            
+            return redirect('/home')
+            
+    else:
+        form = CommentForm
+    
+    return render(request, 'comments.html', {'form': form, 'comments': comments})
+
+
+
