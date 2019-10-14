@@ -57,3 +57,10 @@ class Image(models.Model):
 class NewsLetterRecipients(models.Model):
     name = models.CharField(max_length = 30)
     email = models.EmailField()
+    
+    
+    
+class Comment(models.Model):
+    comment = models.CharField(max_length = 100)
+    image_id = models.ForeignKey(Image)
+    profile_id = models.ForeignKey(Profile)
