@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load bootstrap3 %}
+
+
+{% block content %}
+{{block.super}}
+
+    <div class="card">
+        <div class="container">
+            <h2>{{ images.image_name }}</h2>
+            <img src="{{images.image_path.url}}" alt="">
+            <br>
+
+            {% for comment in comments %}
+
+                <div class="row">
+                    <p><strong>{{comment.profile_id.profile_user}}: </strong>{{comment.comment}}</p>
+
+            {% endfor %}
+                </div>
+        </div>
+    </div>
+    
+{% endblock content %}
