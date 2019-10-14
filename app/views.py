@@ -78,3 +78,15 @@ def new_post(request):
         form = NewPostForm()
         
     return render(request, 'posts.html', {'form': form})
+
+
+
+def home(request):
+    
+    photos = Image.objects.all()
+    people = Profile.objects.all()
+    
+    current_user = request.user
+    userProfile = Profile.objects.filter(profile_user = current_user).first()
+    
+    return render(request, 'home.html', {'people': people, 'photos': photos})
