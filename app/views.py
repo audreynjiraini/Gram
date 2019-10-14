@@ -2,7 +2,7 @@ from django.shortcuts import render, render_to_response, redirect, get_object_or
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from .models import Profile, Image, NewsLetterRecipients
 from django.contrib.auth.models import User
-from .forms import NewPostsForm, NewProfileForm, NewsLetterForm
+from .forms import NewPostForm, NewProfileForm, NewsLetterForm
 from .email import send_welcome_email
 from django.contrib.auth.decorators import login_required
 
@@ -20,6 +20,7 @@ def index(request):
     
     if request.method == 'POST':
         form = NewsLetterForm(request.POST)
+        
         if form.is_valid():
             name = form.cleaned_data['your_name']
             email = form.cleaned_data['email']
@@ -54,3 +55,26 @@ def create_profile(request):
         
     return render(request, 'create_profile.html', {'form': form})
             
+            
+            
+@login_required(login_url = '/accounts/login/')
+def new_post(request):
+    
+    current_user = request.user
+    userProfile = Profile.objects.filter(profile_user = current_user).first()
+    
+    if request.method == 'POST':
+        form = NewPostForm(request.POST, request.FILES)
+        
+        if form.is_valid():
+            image = form.save(commit = False)
+            userProfile = Profile.objects.filter(profile_user = current_user).first()
+            image.image_profile = userProfile
+            image.save()
+            
+            return redirect('/home')
+        
+    else:
+        form = NewPostForm()
+        
+    return render(request, 'posts.html', {'form': form})

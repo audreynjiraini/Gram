@@ -13,7 +13,7 @@ class NewProfileForm(forms.ModelForm):
         exclude = []
 
 
-class NewPostsForm(forms.ModelForm):
+class NewPostForm(forms.ModelForm):
     class Meta:
         model = Image
         exclude = ['pub_date','image_profile']
