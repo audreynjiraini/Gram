@@ -5,8 +5,16 @@ from django.conf.urls.static import static
 
 
 urlpatterns=[
+    url(r'^register/', views.register, name='register'),
     url('^$', views.index, name = 'index'),
     url(r'^create/profile$', views.create_profile, name = 'create-profile'),
+    url(r'^post/', views.new_post, name = 'new-post'),
+    url(r'^home/$', views.home, name = 'home'),
+    url(r'^search/', views.search_results, name = 'search_results'),
+    url(r'^comments/$', views.comments, name = 'comments'),
+    url(r'^myprofile/$', views.myprofile, name = 'myprofile'),
+    url(r'^photos/$', views.photos, name = 'photos'),
+    url(r'^single/<int:image_id>/$', views.single_view, name = 'single'),
 ]
 
 
