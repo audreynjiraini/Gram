@@ -38,7 +38,7 @@ This is a clone of the website for the popular photo app Instagram.
     ```source virtual/bin/activate```
     <li>Install the requirements</li>
     ```pip install -r requirements.txt```
-    <li>In gallery/settings.py file, ensure that DEBUG=True.</li>
+    <li>In project/settings.py file, ensure that DEBUG = True.</li>
     <li>Run the server</li>
     `python3 manage.py runserver`
 </ol>
